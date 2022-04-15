@@ -9,7 +9,7 @@
 </head>
 <body>
     <?php
-        require_once "dbconnection.php";
+        require_once "dbconnect.php";
         if(isset($_POST['account']))
         {
             $sql = "SELECT * FROM account WHERE accountId = '{$_POST['account']}'";
