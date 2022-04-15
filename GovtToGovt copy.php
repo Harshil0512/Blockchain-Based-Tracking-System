@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transfer Govt to Pvt</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
 </head>
 <body>
     <?php
@@ -34,10 +35,10 @@
         }
     ?>
     <header>
-        <h1 class="text-center py-4 m-0 bg-dark text-light">Transfer Govt To Govt</h1>
+        <h1 class="heading text-center py-4 m-0 bg-dark text-light">Transfer Govt To Govt</h1>
     </header>
     <section>
-        <h4 class="text-center display-6 py-4 m-0 bg-secondary text-light">Harshil Khamar</h1>
+        <h4 class="text-center display-6 py-4 m-0 text-light">Harshil Khamar</h1>
     </section>
     <section class="d-flex">
         <div class="col-6 text-center">
@@ -89,7 +90,7 @@
         </div>
     </section>
     <section>
-        <h4 class="text-center display-6 py-4 bg-secondary text-light">Transfer History</h1>
+        <h4 class="text-center display-6 py-4 text-light">Transfer History</h1>
         <table class="table">
           <thead>
             <tr>

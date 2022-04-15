@@ -7,12 +7,35 @@
     <title>Transfer Govt to Govt</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
+<style>
+    
+    body
+    {
+        background: #DDD;
+    }
+    h1,h2,h3,h4,h5,h6{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    }
+    .heading
+    {
+    background: #54229d;
+    }
+    </style>
 <body>
     <?php
+        if(!isset($_SESSION))
+        {
+            session_start();
+        }
+        if(!isset($_SESSION['AccountId']))
+        {
+            echo "<script>window.location.href='login.php';</script>";
+        }
         require_once "dbconnection.php";
         if(isset($_POST['account']))
         {        
-            $sql = "SELECT * FROM account WHERE accountId = '190280107057'";
+            $sql = "SELECT * FROM account WHERE accountId = '{$_SESSION['AccountId']}'";
             $result = mysqli_query($con,$sql);
             $result1 = mysqli_fetch_assoc($result);
             $hash = $result1['HashNumber'];
@@ -23,12 +46,12 @@
             {
                 if(mysqli_num_rows($result)==1)
                 {
-                    $sql = "UPDATE account SET BalanceGovt = BalanceGovt-{$_POST['amt']} WHERE AccountId= '190280107057'";
+                    $sql = "UPDATE account SET BalanceGovt = BalanceGovt-{$_POST['amt']} WHERE AccountId= '{$_SESSION['AccountId']}'";
                     $result = mysqli_query($con,$sql);
-                    $sql = "UPDATE account SET BalancePvt = BalancePvt+{$_POST['amt']} WHERE AccountId= '190280107057'";
+                    $sql = "UPDATE account SET BalancePvt = BalancePvt+{$_POST['amt']} WHERE AccountId= '{$_SESSION['AccountId']}'";
                     $result = mysqli_query($con,$sql);
                     $date = date('Y-m-d H:i:s');
-                    $sql = "INSERT INTO `TransactionHistory` VALUES(NULL,'{$hash}','{$hash}','{$amt}','{$date}','1','190280107057','190280107057')";
+                    $sql = "INSERT INTO `TransactionHistory` VALUES(NULL,'{$hash}','{$hash}','{$amt}','{$date}','1','{$_SESSION['AccountId']}','{$_SESSION['AccountId']}')";
                     $result = mysqli_query($con,$sql);
                     
                     echo "Success";
@@ -50,13 +73,13 @@
         <h1 class="text-center py-4 m-0 bg-dark text-light">Transfer Govt To Govt</h1>
     </header>
     <section>
-        <h4 class="text-center display-6 py-4 m-0 bg-secondary text-light">Harshil Khamar</h1>
+        <h4 class="text-center display-6 py-4 m-0 heading mb-4 text-light">Welcome <?php echo $_SESSION['Name'];?></h1>
     </section>
-    <section class="d-flex">
-        <div class="col-6 text-center">
-            <h3>Available Amount</h3>
-            <div>
-                <table class="table">
+    <section class="d-flex my-4 flex-wrap">
+        <div class="col-md-6 col-sm-12 col-12 text-center">
+            <h3 class="mb-4">Available Amount</h3>
+            <div class="mx-4">
+                <table class="table table-responsive text-center">
                   <thead>
                     <tr>
                       <th scope="col">Sr No.</th>
@@ -68,25 +91,32 @@
                     <tr>
                       <th scope="row">1</th>
                       <td>Govt</td>
-                      <td>100000 Rs.</td>
+                      <?php 
+                        $sql = "SELECT * FROM account WHERE accountId = '{$_SESSION['AccountId']}'";
+                        $result = mysqli_query($con,$sql);
+                        $row = mysqli_fetch_assoc($result);
+                        $BalanceGovt = $row['BalanceGovt'];
+                        $BalancePvt = $row['BalancePvt'];
+                      ?>
+                      <td><?php echo $BalanceGovt; ?> Rs.</td>
                     </tr>
                     <tr>
                       <th scope="row">2</th>
                       <td>Private</td>
-                      <td>100000 Rs.</td>
+                      <td><?php echo $BalancePvt; ?> Rs.</td>
                     </tr>
                     <tr>
                       <th scope="row">3</th>
                       <th colspan="1">Total Amount</th>
-                      <th>200000 Rs.</th>
+                      <th><?php echo $BalanceGovt+$BalancePvt ?>Rs.</th>
                     </tr>
                   </tbody>
                 </table>
             </div>
         </div>
-        <div class="col-6 text-center d-flex align-items-center flex-wrap">
+        <div class="col-md-6 col-sm-12 col-12 text-center m-0 d-flex align-items-center flex-wrap">
             <h3 class="col-12">Amount To Transfer</h3>
-            <div class="my-2 mx-4 col-12">
+            <div class="my-2 col-12">
                 <form action="#" method="post" class="w-75 mx-auto" id="GovtToGovt">
                     <div class="form-floating m-2 d-flex align-items-center h-100">
                         <input type="text" name="account" id="account" min="0" placeholder="Transfer To SELF" class="form-control mx-auto" disabled>
@@ -102,8 +132,8 @@
         </div>
     </section>
     <section>
-        <h4 class="text-center display-6 py-4 bg-secondary text-light">Transfer History</h1>
-        <table class="table">
+        <h4 class="text-center display-6 py-4 m-0 heading text-light">Transfer History</h1>
+        <table class="table table-responsive table-light text-center">
           <thead>
             <tr>
               <th scope="col">Sr No.</th>
@@ -115,7 +145,7 @@
           </thead>
           <tbody>
             <?php
-                $sql = "SELECT * FROM transactionHistory WHERE FromAccId='190280107057' AND ToAccId='190280107057' AND Mode = '1'";
+                $sql = "SELECT * FROM transactionHistory WHERE FromAccId='{$_SESSION['AccountId']}' AND ToAccId='{$_SESSION['AccountId']}' AND Mode = '1'";
                 $result = mysqli_query($con,$sql);
                 $i = 1;
                 while($row = mysqli_fetch_assoc($result))
@@ -128,8 +158,8 @@
                     <td><?php echo $row['ToAccId']; ?></td>
                     <?php
                         $sql = "SELECT * FROM mode WHERE modeId={$row['Mode']}";
-                        $result = mysqli_query($con,$sql);
-                        $row = mysqli_fetch_assoc($result);
+                        $result1 = mysqli_query($con,$sql);
+                        $row = mysqli_fetch_assoc($result1);
                     ?>
                     <td><?php echo $row['Mode']; ?></td>
                 </tr>

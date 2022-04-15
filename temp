@@ -18,15 +18,15 @@ $Password=$_POST['Password'];
 $sql2="SELECT * FROM `account` where AccountId='$AccountId'";
 
  $result2=mysqli_query($conn,$sql2);
+ $temp = mysqli_fetch_assoc($result2);
+ $hash = $temp['HashNumber'];
+ $AccountNumber = $temp['Account Number'];
  $num=mysqli_num_rows($result2);
  if($num == 1){
 // echo "numm1";
 // echo "$num";
 while($row=mysqli_fetch_assoc($result2))
 {
-    $hash = $row['HashNumber'];
-    $name = $row['Name'];
-    $AccountNumber = $temp['Account Number'];
     // echo "hello";
     // echo $row['Password'];
     // echo $Password;
@@ -37,9 +37,8 @@ if($Password==$row['Password'])
 
 $_SESSION['login']=true;
 $_SESSION['AccountId']=$AccountId;
-$_SESSION['AccountNumber'] = $AccountNumber;
-$_SESSION['HashNumber'] = $Hash;
-$_SESSION['Name']=$name;
+$_SESSION['AccountNumber']=$AccountNumber;
+$_SESSION['hash']=$hash;
 // echo "Done";
 header("location: GovtToGovt.php");
 }
