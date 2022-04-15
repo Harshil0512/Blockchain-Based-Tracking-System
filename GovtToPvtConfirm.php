@@ -10,11 +10,6 @@
     }
     if(isset($_POST['account']))
     {        
-        $accountId = $_POST['account'];
-        $sql = "SELECT * FROM account WHERE accountId = '{$accountId}'";
-        $result = mysqli_query($con,$sql);
-        $result = mysqli_fetch_assoc($result);
-        $hashTo = $result['HashNumber'];
         $sql = "SELECT * FROM account WHERE accountId = '{$_SESSION['AccountId']}'";
         $result = mysqli_query($con,$sql);
         $result1 = mysqli_fetch_assoc($result);
@@ -26,12 +21,12 @@
         {
             if(mysqli_num_rows($result)==1)
             {
-                $sql = "UPDATE account SET BalanceGovt = BalanceGovt-{$amt} WHERE AccountId= '{$_SESSION['AccountId']}'";
+                $sql = "UPDATE account SET BalanceGovt = BalanceGovt-{$_POST['amt']} WHERE AccountId= '{$_SESSION['AccountId']}'";
                 $result = mysqli_query($con,$sql);
-                $sql = "UPDATE account SET BalanceGovt = BalanceGovt+{$amt} WHERE AccountId= '{$accountId}'";
+                $sql = "UPDATE account SET BalancePvt = BalancePvt+{$_POST['amt']} WHERE AccountId= '{$_SESSION['AccountId']}'";
                 $result = mysqli_query($con,$sql);
                 $date = date('Y-m-d H:i:s');
-                $sql = "INSERT INTO `TransactionHistory` VALUES(NULL,'{$hash}','{$hashTo}','{$amt}','{$date}','1','{$_SESSION['AccountId']}','{$accountId}')";
+                $sql = "INSERT INTO `TransactionHistory` VALUES(NULL,'{$hash}','{$hash}','{$amt}','{$date}','2','{$_SESSION['AccountId']}','{$_SESSION['AccountId']}')";
                 $result = mysqli_query($con,$sql);
                 echo "Success";
             }
@@ -44,6 +39,5 @@
         {
             echo "Insufficient Balance";
         }
-        
     }
 ?>

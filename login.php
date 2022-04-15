@@ -7,7 +7,7 @@ if(!isset($_SESSION))
 }
 if(isset($_SESSION['AccountId']))
 {
-    echo "<script>window.location.href='GovtToGovt.php';</script>";
+    echo "<script>window.location.href='GovtToPvt.php';</script>";
 }
 if($_SERVER['REQUEST_METHOD']=="POST"){
 require "dbconnection.php";
@@ -41,7 +41,7 @@ $_SESSION['AccountNumber'] = $AccountNumber;
 $_SESSION['HashNumber'] = $Hash;
 $_SESSION['Name']=$name;
 // echo "Done";
-header("location: GovtToGovt.php");
+header("location: GovtToPvt.php");
 }
 else{
     $notlogin=true;

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transfer Govt To Govt</title>
+    <title>Transfer Pvt To Pvt</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <style>
@@ -33,9 +33,10 @@
             echo "<script>window.location.href='login.php';</script>";
         }
         require_once "dbconnection.php";
+        
     ?>
     <header>
-        <h1 class="text-center py-4 m-0 bg-dark text-light">Transfer Govt To Govt</h1>
+        <h1 class="text-center py-4 m-0 bg-dark text-light">Transfer Pvt To Pvt</h1>
     </header>
     <section>
         <h4 class="text-center display-6 py-4 m-0 heading mb-4 text-light">Welcome <?php echo $_SESSION['Name'];?></h1>
@@ -82,7 +83,7 @@
         <div class="col-md-6 col-sm-12 col-12 text-center m-0 d-flex align-items-center flex-wrap">
             <h3 class="col-12">Amount To Transfer</h3>
             <div class="my-2 col-12">
-                <form action="#" method="post" class="w-75 mx-auto" id="GovtToGovt">
+                <form action="#" method="post" class="w-75 mx-auto" id="PvtToPvt">
                     <div class="form-floating m-2 d-flex align-items-center h-100">
                         <input type="text" name="account" id="account" min="0" placeholder="Enter Account No." class="form-control mx-auto" required>
                         <label for="amt">Enter Account No.</label>
@@ -110,7 +111,7 @@
           </thead>
           <tbody>
             <?php
-                $sql = "SELECT * FROM transactionHistory WHERE (FromAccId='{$_SESSION['AccountId']}' OR ToAccId='{$_SESSION['AccountId']}') AND Mode = '1'";
+                $sql = "SELECT * FROM transactionHistory WHERE (FromAccId='{$_SESSION['AccountId']}' OR ToAccId='{$_SESSION['AccountId']}') AND Mode = '3'";
                 $result = mysqli_query($con,$sql);
                 $i = 1;
                 while($row = mysqli_fetch_assoc($result))
@@ -147,7 +148,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancel">Cancel</button>
-                <form action="GovtToGovt.php" method="POST" id="confirmForm">
+                <form action="PvtToPvt.php" method="POST" id="confirmForm">
                     <button type="submit" class="btn heading text-light" name="confirm">Confirm</button>
                 </form>
             </div>
@@ -161,13 +162,13 @@
 <script>
     $(document).ready(function () {
         $(document).on("click","#cancel", (e)=>{
-            window.location.href="GovtToGovt.php";
+            window.location.href="PvtToPvt.php";
         });
-        $(document).on("submit","#GovtToGovt", (e)=>{
+        $(document).on("submit","#PvtToPvt", (e)=>{
             e.preventDefault();
-            let amt = $("#GovtToGovt #amt").val();
-            let account = $("#GovtToGovt #account").val();
-            $("#confirmText").text(`Are You Want Sure To Transfer Rs. ${amt} From Your Account To Account No. ${account} ?`);
+            let amt = $("#PvtToPvt #amt").val();
+            let account = $("#PvtToPvt #account").val();
+            $("#confirmText").text(`Are You Want Sure To Transfer Rs. ${amt} From Your Government Partition To Private Partition ?`);
             if(amt<=100000)
             {
                 $('#confirmBtn').click();
@@ -175,25 +176,25 @@
                         e.preventDefault();
                         $.ajax({
                         type: "POST",
-                        url: "GovtToGovtConfirm.php",
+                        url: "PvtToPvtConfirm.php",
                         data: {amt : amt, account : account},
                         success: function (response) {
                             if(response=="Success")
                             {
                                 alert("Transfer Successful");
-                                window.location.href="GovtToGovt.php";
+                                window.location.href="PvtToPvt.php";
                             }
                             else
                             {
                                 alert(response);
-                                window.location.href="GovtToGovt.php";
+                                window.location.href="PvtToPvt.php";
                             }
                             
                         },
                         error: function(response)
                         {
-                            alert(response);
-                            window.location.href="GovtToGovt.php";
+                            alert("Account Doesn't Exists !!");
+                            window.location.href="PvtToPvt.php";
                         }
                     });
                 });
