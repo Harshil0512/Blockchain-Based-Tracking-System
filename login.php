@@ -10,14 +10,14 @@ if(isset($_SESSION['AccountId']))
     echo "<script>window.location.href='GovtToGovt.php';</script>";
 }
 if($_SERVER['REQUEST_METHOD']=="POST"){
-require "dbconnect.php";
+require "dbconnection.php";
 
 $AccountId=$_POST['AccountId'];
 $Password=$_POST['Password'];
 
 $sql2="SELECT * FROM `account` where AccountId='$AccountId'";
 
- $result2=mysqli_query($conn,$sql2);
+ $result2=mysqli_query($con,$sql2);
  $num=mysqli_num_rows($result2);
  if($num == 1){
 // echo "numm1";
@@ -96,7 +96,7 @@ if($login){
             </div>
             <div class="forgot-link form-group d-flex justify-content-between align-items-center">
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="remember">
+                    <input type="checkbox" class="form-check-input" id="remember"  name="remember" <?php if(isset($_COOKIE["member_login"])) { ?> checked <?php } ?>>
                     <label class="form-check-label" for="remember">Remember Password</label>
                 </div>
                 <!-- <a href="#">Forgot Password?</a> -->

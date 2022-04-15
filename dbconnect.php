@@ -1,6 +1,6 @@
 <?php
-$conn=mysqli_connect("localhost","root","","blockchain");
-if(!$conn){
+$con=mysqli_connect("localhost","root","","blockchain");
+if(!$con){
 echo "Database connection not success!!";
 }
 ?>
