@@ -15,14 +15,53 @@ require 'dbconnect.php';
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 
+<style>
+    h2 {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+  font-weight: 300;
+  font-size: 40px;
+  color: #080808;
+  -webkit-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+  margin:20px;
+}
+    .seven h2 {
+text-align: center;
+    font-size:30px; font-weight:300; color:#222; letter-spacing:1px;
+    text-transform: uppercase;
 
+    display: grid;
+    grid-template-columns: 1fr max-content 1fr;
+    grid-template-rows: 27px 0;
+    grid-gap: 20px;
+    align-items: center;
+}
+
+.seven h2:after,.seven h2:before {
+    content: " ";   
+    display: block;
+    border-bottom: 1px solid #c50000;
+    border-top: 1px solid #c50000;
+    height: 5px;
+  background-color:#f8f8f8;
+}
+</style>
     <title>History</title>
 
 </head>
 
 <body>
-    <h2 style="text-align:center; padding:20px;">History</h2>
+    <!-- <div class="seven">
+    <h2>History</h2>
+    </div> -->
     <div class="container my-4">
+    <div class="seven">
+    <h2>History</h2>
+    </div>
         <table class="table" id="myTable">
             <thead>
                 <tr>
@@ -47,11 +86,11 @@ require 'dbconnect.php';
 
                 <?php 
           $sql = "SELECT * FROM `transactionhistory`";
-          $result = mysqli_query($conn, $sql);
+          $result = mysqli_query($con, $sql);
           $sno = 0;
           while($row = mysqli_fetch_assoc($result)){
             $sql3 = "SELECT * FROM `mode` where ModeId=".$row['Mode'];
-            $result2 = mysqli_query($conn, $sql3);
+            $result2 = mysqli_query($con, $sql3);
             $row2 = mysqli_fetch_assoc($result2);
 
             $sno = $sno + 1;
