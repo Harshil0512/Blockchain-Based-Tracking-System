@@ -4,46 +4,33 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transfer Govt to Govt</title>
+    <title>Transfer Govt to Pvt</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
     <?php
         require_once "dbconnection.php";
         if(isset($_POST['account']))
-        {        
-            $sql = "SELECT * FROM account WHERE accountId = '190280107057'";
+        {
+            $sql = "SELECT * FROM account WHERE accountId = '{$_POST['account']}'";
             $result = mysqli_query($con,$sql);
-            $result1 = mysqli_fetch_assoc($result);
-            $hash = $result1['HashNumber'];
-            $currentBalance = $result1['BalanceGovt'];
+            $hash = mysqli_fetch_assoc($result)['HashNumber'];
             $amt = $_POST['amt'];
-            
-            if($currentBalance >= $amt)
+            if(mysqli_num_rows($result)==1)
             {
-                if(mysqli_num_rows($result)==1)
-                {
-                    $sql = "UPDATE account SET BalanceGovt = BalanceGovt-{$_POST['amt']} WHERE AccountId= '190280107057'";
-                    $result = mysqli_query($con,$sql);
-                    $sql = "UPDATE account SET BalancePvt = BalancePvt+{$_POST['amt']} WHERE AccountId= '190280107057'";
-                    $result = mysqli_query($con,$sql);
-                    $date = date('Y-m-d H:i:s');
-                    $sql = "INSERT INTO `TransactionHistory` VALUES(NULL,'{$hash}','{$hash}','{$amt}','{$date}','1','190280107057','190280107057')";
-                    $result = mysqli_query($con,$sql);
-                    
-                    echo "Success";
-                }
-                else
-                {
-                    echo "Account Not Exist";
-                }
+                $sql = "UPDATE account SET BalancePvt = BalancePvt-{$_POST['amt']} WHERE AccountId= '190280107057'";
+                $result = mysqli_query($con,$sql);
+                $sql = "UPDATE account SET BalancePvt = BalancePvt+{$_POST['amt']} WHERE AccountId= '{$_POST['account']}'";
+                $result = mysqli_query($con,$sql);
+                $date = date('Y-m-d H:i:s');
+                $sql = "INSERT INTO TransactionHistory VALUES('NULL','33e71616c0bf13936a210cc69630db680002','{$hash}','{$amt}','{$date}','1','190280107057','{$_POST['account']}')";
+                $result = mysqli_query($con,$sql);
+                echo "Success";
             }
             else
             {
-                echo "Insufficient Balance";
+                echo "Account Not Exist";
             }
-            
-            
         }
     ?>
     <header>
@@ -89,8 +76,8 @@
             <div class="my-2 mx-4 col-12">
                 <form action="#" method="post" class="w-75 mx-auto" id="GovtToGovt">
                     <div class="form-floating m-2 d-flex align-items-center h-100">
-                        <input type="text" name="account" id="account" min="0" placeholder="Transfer To SELF" class="form-control mx-auto" disabled>
-                        <label for="amt">Transfer To SELF</label>
+                        <input type="number" name="account" id="account" min="0" placeholder="Enter The Account" class="form-control mx-auto" required>
+                        <label for="amt">Enter The Account No.</label>
                     </div>
                     <div class="form-floating m-2 d-flex align-items-center h-100">
                         <input type="number" name="amt" id="amt" min="0" placeholder="Enter The Amount" class="form-control mx-auto" required>
@@ -114,29 +101,27 @@
             </tr>
           </thead>
           <tbody>
-            <?php
-                $sql = "SELECT * FROM transactionHistory WHERE FromAccId='190280107057' AND ToAccId='190280107057' AND Mode = '1'";
-                $result = mysqli_query($con,$sql);
-                $i = 1;
-                while($row = mysqli_fetch_assoc($result))
-                {
-            ?>
-                <tr>
-                    <th scope="row"><?php echo $i; ?></th>
-                    <td><?php echo $row['Date']; ?></td>
-                    <td><?php echo $row['Amount']; ?></td>
-                    <td><?php echo $row['ToAccId']; ?></td>
-                    <?php
-                        $sql = "SELECT * FROM mode WHERE modeId={$row['Mode']}";
-                        $result = mysqli_query($con,$sql);
-                        $row = mysqli_fetch_assoc($result);
-                    ?>
-                    <td><?php echo $row['Mode']; ?></td>
-                </tr>
-            <?php
-                }
-            ?>
-            </tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+              <td>@mdo</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>@fat</td>
+              <td>@mdo</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td colspan="2">Larry the Bird</td>
+              <td>@twitter</td>
+              <td>@mdo</td>     
+            </tr>
+          </tbody>
         </table>
 
     </section>
@@ -150,7 +135,7 @@
             e.preventDefault();
             let amt = $("#GovtToGovt #amt").val();
             let account = $("#GovtToGovt #account").val();
-            if(amt<=100000)
+            if(amt<100000)
             {
                 $.ajax({
                     type: "POST",
