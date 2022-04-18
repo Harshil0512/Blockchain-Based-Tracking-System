@@ -35,8 +35,12 @@
         require_once "dbconnection.php";
         
     ?>
-    <header>
-        <h1 class="text-center py-4 m-0 bg-dark text-light">Transfer Pvt To Pvt</h1>
+    <?php require_once 'navigation.php'; ?>
+    <header class="text-center py-4 m-0 bg-dark text-light d-flex align-items-center">
+        <button class="btn btn-primary navbar-toggler bg-dark text-light navbar-dark col-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#navigation">
+            <span class="navbar-toggler-icon text-secondary"></span>
+        </button>    
+        <h1 class="col-10">Transfer Pvt To Pvt</h1>
     </header>
     <section>
         <h4 class="text-center display-6 py-4 m-0 heading mb-4 text-light">Welcome <?php echo $_SESSION['Name'];?></h1>
