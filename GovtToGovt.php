@@ -169,8 +169,8 @@
                         data: {amt : amt, account : account},
                         success: function (response) {
                             try{
-                                response1=JSON.parse(response)
-                                if(response['from']!=null)
+                                response1=JSON.parse(response);
+                                if(response1['from']!=null)
                                 {
                                     window.location.href=`success.php?date=${response1['date']}&from=${response1['from']}&to=${response1['to']}&amt=${response1['amt']}&fromType=${response1['fromType']}&toType=${response1['toType']}`;
                                 }

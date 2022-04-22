@@ -1,8 +1,6 @@
 <?php
 session_start();
-require 'dbconnection.php';
 
-$id= $_SESSION['AccountId'];
 
 ?>
 
