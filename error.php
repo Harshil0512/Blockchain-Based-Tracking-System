@@ -53,7 +53,22 @@ text-align: center;
     <title>Error</title>
 
 </head>
+<?php
 
+    if(!isset($_SESSION))
+    {
+        session_start();
+    }
+    if(!isset($_SESSION['AccountId']))
+    {
+        echo "<script>window.location.href='login.php';</script>";
+    }
+    if(!isset($_GET['response']))
+    {
+        echo "<script>window.location.href='account.php';</script>";
+    }
+
+?>
 <body>
     <!-- <div class="seven">
     <h2>History</h2>
@@ -62,8 +77,8 @@ text-align: center;
     <div class="seven">
     <h2>Error</h2>
     </div>
-        <h3> Your Transaction is Failed!!</h3><br>
-        <h3>Try Again.</h3>
+        <h3 class="text-center"> Your Transaction is Failed!!</h3>
+        <h2 class="text-center">Reason : <?php echo $_GET['response']; ?></h2>
     </div>
     
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

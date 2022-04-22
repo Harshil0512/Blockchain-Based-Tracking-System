@@ -1,5 +1,6 @@
 <?php
     require_once "dbconnection.php";
+    $output = null;
     if(!isset($_SESSION))
     {
         session_start();
@@ -27,8 +28,14 @@
                 $result = mysqli_query($con,$sql);
                 $date = date('Y-m-d H:i:s');
                 $sql = "INSERT INTO `TransactionHistory` VALUES(NULL,'{$hash}','{$hash}','{$amt}','{$date}','2','{$_SESSION['AccountId']}','{$_SESSION['AccountId']}')";
+                $output['from'] = $_SESSION['AccountId'];
+                $output['to'] = $_SESSION['AccountId'];
+                $output['date'] = $date;
+                $output['amt'] = $amt;
+                $output['fromType'] = "Govt";
+                $output['toType'] = "Pvt";
                 $result = mysqli_query($con,$sql);
-                echo "Success";
+                echo json_encode($output);
             }
             else
             {

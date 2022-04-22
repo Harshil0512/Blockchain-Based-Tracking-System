@@ -88,22 +88,16 @@ text-align: center;
                     <td>24/08/2002</td>
                 </tr> -->
 
-                <?php 
-          $sql = "select * from trasactionhistory where FromAccId ='$id'";
-          $result = mysqli_query($con, $sql);
-          $row=$result->mysqli_fetch_assoc();
-
-         
+                <?php
+            $response = json_decode($_GET['response'], true);
             echo "<tr>
-            
-            <td>". $row['date'] . "</td>
-            <td>". $row['amt'] . "</td>
-            <td>". $row['Amount'] . "</td>
-            <td>". $row2['Mode'] . "</td>
-            <td>". $row['Date'] . "</td>
-            <td>". $row['Date'] . "</td>
-
-          </tr>";
+                    <td>". $_GET['date'] . "</td>
+                    <td>". $_GET['amt'] . "</td>
+                    <td>". $_GET['from'] . "</td>
+                    <td>". $_GET['to'] . "</td>
+                    <td>". $_GET['fromType'] . "</td>
+                    <td>". $_GET['toType'] . "</td>
+                </tr>";
        ?>
 
             </tbody>

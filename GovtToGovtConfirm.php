@@ -33,7 +33,13 @@
                 $date = date('Y-m-d H:i:s');
                 $sql = "INSERT INTO `TransactionHistory` VALUES(NULL,'{$hash}','{$hashTo}','{$amt}','{$date}','1','{$_SESSION['AccountId']}','{$accountId}')";
                 $result = mysqli_query($con,$sql);
-                echo "Success";
+                $output['from'] = $_SESSION['AccountId'];
+                $output['to'] = $accountId;
+                $output['date'] = $date;
+                $output['amt'] = $amt;
+                $output['fromType'] = "Govt";
+                $output['toType'] = "Govt";
+                echo json_encode($output);
             }
             else
             {

@@ -1,0 +1,25 @@
+body {
+    background: #DDD;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+}
+
+.heading {
+    background: #54229d;
+}
+
+.list-group-item-bg {
+    background: #423b4c !important;
+}
+
+.list-group-item-bg:hover {
+    background: #af93da !important;
+}

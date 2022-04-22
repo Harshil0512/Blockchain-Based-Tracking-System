@@ -12,8 +12,8 @@
     {        
         $accountId = $_POST['account'];
         $sql = "SELECT * FROM account WHERE accountId = '{$accountId}'";
-        $result = mysqli_query($con,$sql);
-        $result = mysqli_fetch_assoc($result);
+        $result11 = mysqli_query($con,$sql);
+        $result = mysqli_fetch_assoc($result11);
         $hashTo = $result['HashNumber'];
         $sql = "SELECT * FROM account WHERE accountId = '{$_SESSION['AccountId']}'";
         $result = mysqli_query($con,$sql);
@@ -24,7 +24,7 @@
         
         if($currentBalance >= $amt)
         {
-            if(mysqli_num_rows($result)==1)
+            if(mysqli_num_rows($result11)==1)
             {
                 $sql = "UPDATE account SET BalancePvt = BalancePvt-{$amt} WHERE AccountId= '{$_SESSION['AccountId']}'";
                 $result = mysqli_query($con,$sql);
@@ -33,7 +33,13 @@
                 $date = date('Y-m-d H:i:s');
                 $sql = "INSERT INTO `TransactionHistory` VALUES(NULL,'{$hash}','{$hashTo}','{$amt}','{$date}','3','{$_SESSION['AccountId']}','{$accountId}')";
                 $result = mysqli_query($con,$sql);
-                echo "Success";
+                $output['from'] = $_SESSION['AccountId'];
+                $output['to'] = $accountId;
+                $output['date'] = $date;
+                $output['amt'] = $amt;
+                $output['fromType'] = "Pvt";
+                $output['toType'] = "Pvt";
+                echo json_encode($output);
             }
             else
             {

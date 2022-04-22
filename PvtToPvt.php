@@ -6,22 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transfer Pvt To Pvt</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="Assets/css/Main.css">
 </head>
-<style>
-    
-    body
-    {
-        background: #DDD;
-    }
-    h1,h2,h3,h4,h5,h6{
-    font-family: 'Poppins', sans-serif;
-    font-weight: 300;
-    }
-    .heading
-    {
-    background: #54229d;
-    }
-    </style>
 <body>
     <?php
         if(!isset($_SESSION))
@@ -183,22 +169,22 @@
                         url: "PvtToPvtConfirm.php",
                         data: {amt : amt, account : account},
                         success: function (response) {
-                            if(response=="Success")
-                            {
-                                alert("Transfer Successful");
-                                window.location.href="PvtToPvt.php";
+                            try{
+                                response1=JSON.parse(response)
+                                if(response['from']!=null)
+                                {
+                                    window.location.href=`success.php?date=${response1['date']}&from=${response1['from']}&to=${response1['to']}&amt=${response1['amt']}&fromType=${response1['fromType']}&toType=${response1['toType']}`;
+                                }
                             }
-                            else
+                            catch
                             {
-                                alert(response);
-                                window.location.href="PvtToPvt.php";
+                                window.location.href="error.php?response="+response;
                             }
                             
                         },
                         error: function(response)
                         {
-                            alert("Account Doesn't Exists !!");
-                            window.location.href="PvtToPvt.php";
+                            window.location.href="error.php?response="+response;
                         }
                     });
                 });

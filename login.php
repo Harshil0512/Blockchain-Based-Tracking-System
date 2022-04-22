@@ -26,7 +26,7 @@ while($row=mysqli_fetch_assoc($result2))
 {
     $hash = $row['HashNumber'];
     $name = $row['Name'];
-    $AccountNumber = $temp['Account Number'];
+    $AccountNumber = $row['Account Number'];
     // echo "hello";
     // echo $row['Password'];
     // echo $Password;
@@ -34,14 +34,13 @@ if($Password==$row['Password'])
 {
     $login=true;
     session_start();
-
 $_SESSION['login']=true;
 $_SESSION['AccountId']=$AccountId;
 $_SESSION['AccountNumber'] = $AccountNumber;
 $_SESSION['HashNumber'] = $Hash;
 $_SESSION['Name']=$name;
 // echo "Done";
-header("location: GovtToPvt.php");
+header("location: index.php");
 }
 else{
     $notlogin=true;

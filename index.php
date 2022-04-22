@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transfer Govt to Govt</title>
+    <title>Welcome To Blockchain Based Governance System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="Assets/css/Main.css">
-</head>
+</head> 
 <body>
     <?php
         if(!isset($_SESSION))
@@ -19,17 +19,22 @@
             echo "<script>window.location.href='login.php';</script>";
         }
         require_once "dbconnection.php";
-        
     ?>
     <?php require_once 'navigation.php'; ?>
     <header class="text-center py-4 m-0 bg-dark text-light d-flex align-items-center">
         <button class="btn btn-primary navbar-toggler bg-dark text-light navbar-dark col-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#navigation">
             <span class="navbar-toggler-icon text-secondary"></span>
         </button>    
-        <h1 class="col-10">Transfer Govt To Pvt</h1>
+        <h1 class="col-10">Welcome <?php echo $_SESSION['Name']; ?></h1>
+        <a class="btn btn-primary" href="logout.php">Logout</a>
     </header>
     <section>
-        <h4 class="text-center display-6 py-4 m-0 heading mb-4 text-light">Welcome <?php echo $_SESSION['Name'];?></h1>
+        <h4 class="text-start display-7 p-4 m-0 heading mb-4 text-light">
+            <p>Account ID : <?php echo $_SESSION['AccountId']; ?></p>
+            <p>Account Number : <?php echo $_SESSION['AccountNumber']; ?></p>
+            
+        </h1>
+        
     </section>
     <section class="d-flex my-4 flex-wrap">
         <div class="col-md-6 col-sm-12 col-12 text-center">
@@ -70,25 +75,23 @@
                 </table>
             </div>
         </div>
-        <div class="col-md-6 col-sm-12 col-12 text-center m-0 d-flex align-items-center flex-wrap">
+        <div class="col-md-6 col-sm-12 col-12 mx-auto text-center m-0 d-flex align-items-center container flex-wrap">
             <h3 class="col-12">Amount To Transfer</h3>
-            <div class="my-2 col-12">
-                <form action="#" method="post" class="w-75 mx-auto" id="GovtToPvt">
-                    <div class="form-floating m-2 d-flex align-items-center h-100">
-                        <input type="text" name="account" id="account" min="0" placeholder="Transfer To SELF" class="form-control mx-auto" disabled>
-                        <label for="amt">Transfer To SELF</label>
-                    </div>
-                    <div class="form-floating m-2 d-flex align-items-center h-100">
-                        <input type="number" name="amt" id="amt" min="0" placeholder="Enter The Amount" class="form-control mx-auto" required>
-                        <label for="amt">Enter The Amount</label>
-                    </div>
-                    <button type="submit" class="btn btn-success" >Transfer</button>
-                </form>
-            </div>
+            <ul class="list-group col-12 bg-dark">
+                <a href="GovtToGovt.php" class="list-group-item list-group-item-bg list-group-item-action text-light">
+                    Transfer Govt To Govt
+                </a>
+                <a href="GovtToPvt.php" class="list-group-item list-group-item-bg list-group-item-action text-light">
+                    Transfer Govt To Pvt
+                </a>
+                <a href="PvtToPvt.php" class="list-group-item list-group-item-bg list-group-item-action text-light">
+                    Transfer Pvt To Pvt
+                </a>
+            </ul>
         </div>
     </section>
     <section>
-        <h4 class="text-center display-6 py-4 m-0 heading text-light">Transfer History</h1>
+        <h4 class="text-center display-6 py-4 m-0 heading text-light">Transaction History</h1>
         <table class="table table-responsive table-light text-center">
           <thead>
             <tr>
@@ -101,7 +104,7 @@
           </thead>
           <tbody>
             <?php
-                $sql = "SELECT * FROM transactionHistory WHERE FromAccId='{$_SESSION['AccountId']}' AND ToAccId='{$_SESSION['AccountId']}' AND Mode = '2'";
+                $sql = "SELECT * FROM transactionHistory WHERE (FromAccId='{$_SESSION['AccountId']}' OR ToAccId='{$_SESSION['AccountId']}')";
                 $result = mysqli_query($con,$sql);
                 $i = 1;
                 while($row = mysqli_fetch_assoc($result))
@@ -138,7 +141,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancel">Cancel</button>
-                <form action="GovtToPvt.php" method="POST" id="confirmForm">
+                <form action="GovtToGovt.php" method="POST" id="confirmForm">
                     <button type="submit" class="btn heading text-light" name="confirm">Confirm</button>
                 </form>
             </div>
@@ -152,13 +155,13 @@
 <script>
     $(document).ready(function () {
         $(document).on("click","#cancel", (e)=>{
-            window.location.href="GovtToPvt.php";
+            window.location.href="GovtToGovt.php";
         });
-        $(document).on("submit","#GovtToPvt", (e)=>{
+        $(document).on("submit","#GovtToGovt", (e)=>{
             e.preventDefault();
-            let amt = $("#GovtToPvt #amt").val();
-            let account = $("#GovtToPvt #account").val();
-            $("#confirmText").text(`Are You Want Sure To Transfer Rs. ${amt} From Your Government Partition To Private Partition ?`);
+            let amt = $("#GovtToGovt #amt").val();
+            let account = $("#GovtToGovt #account").val();
+            $("#confirmText").text(`Are You Want Sure To Transfer Rs. ${amt} From Your Account To Account No. ${account} ?`);
             if(amt<=100000)
             {
                 $('#confirmBtn').click();
@@ -166,7 +169,7 @@
                         e.preventDefault();
                         $.ajax({
                         type: "POST",
-                        url: "GovtToPvtConfirm.php",
+                        url: "GovtToGovtConfirm.php",
                         data: {amt : amt, account : account},
                         success: function (response) {
                             try{
