@@ -3,6 +3,17 @@ require 'dbconnection.php';
 
 ?>
 
+<?php
+        if(!isset($_SESSION))
+        {
+            session_start();
+        }
+        if(!isset($_SESSION['AccountId']))
+        {
+            echo "<script>window.location.href='login.php';</script>";
+        }
+        require_once "dbconnection.php";
+    ?>
 <!doctype html>
 <html lang="en">
 
