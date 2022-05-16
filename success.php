@@ -87,7 +87,7 @@ text-align: center;
                 </tr> -->
 
                 <?php
-            $response = json_decode($_GET['response'], true);
+            // $response = json_decode($_GET['response'], true);
             echo "<tr>
                     <td>". $_GET['date'] . "</td>
                     <td>". $_GET['amt'] . "</td>

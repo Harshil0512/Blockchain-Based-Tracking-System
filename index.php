@@ -98,6 +98,7 @@
               <th scope="col">Sr No.</th>
               <th scope="col">Date</th>
               <th scope="col">Amount</th>
+              <th scope="col">From (Account)</th>
               <th scope="col">To (Account)</th>
               <th scope="col">To (Type) </th>
             </tr>
@@ -114,6 +115,7 @@
                     <th scope="row"><?php echo $i++; ?></th>
                     <td><?php echo $row['Date']; ?></td>
                     <td><?php echo $row['Amount']; ?></td>
+                    <td><?php echo $row['FromAccId']; ?></td>
                     <td><?php echo $row['ToAccId']; ?></td>
                     <?php
                         $sql = "SELECT * FROM mode WHERE modeId={$row['Mode']}";
